@@ -1,184 +1,90 @@
-# importing the tkinter module
+# importing tkinter module
+from tkinter import *
 
-import tkinter
-
-root = tkinter.Tk()   # creating a window
-root.title("Temperature Converter")   # naming the recently created window
-root.geometry("1200x700")   # setting the size of the window
-root.config(bg="tan")   # setting the background color for the window
-
-# creating the Celsius to Fahrenheit LabelFrame
-
-l1 = tkinter.LabelFrame(root,
-                        text="Celsius to Fahrenheit",
-                        font="sans-serif",
-                        bg="blue",
-                        fg="black",
-                        bd=6,
-                        padx=20,
-                        pady=20)
-
-l1.grid(row=2, column=0)      # positioning the l1 in the window
-
-# creating the Entry for Celsius to Fahrenheit Frame
-
-e1 = tkinter.Entry(l1,
-                   state="disable")
-
-e1. grid(row=4, column=0)    # positioning the e1 in the window
+root = Tk()  # creating window
+root.title("Ideal BMI")   # naming window
+root.geometry("1000x800")  # setting window size
+root.config(bg="blue")      # setting window background color
 
 
-# defining function responsible for setting the state for Celsius
-def cel_active():
-    e2.configure(state='disable')
-    e1.configure(state="normal")
+label_text = StringVar()
+clicked = StringVar()
 
 
-# creating a button that when clicked will invoke the state of Celsius to Fahrenheit and calling the cel_active()
+# defining actual BMI function
+def bmi_calculator():
+    bmi = float(weight_entry.get()) / (float(Height_entry.get()) / 100)*2
+    label_text.set("%0.2f" % bmi)
 
-btn_active = tkinter.Button(root,
-                            text="Active -Celsius to Fahrenheit",
-                            font="sans-serif",
-                            bg="light blue",
-                            fg="black",
-                            bd=5,
-                            command=cel_active)
-
-btn_active.grid(row=6, column=0)    # positioning the btn_active in the window
-
-
-l2 = tkinter.LabelFrame(root,
-                        text="Fahrenheit to Celsius",
-                        font="sans-serif",
-                        bg="red",
-                        fg="black",
-                        bd=6,
-                        padx=20,
-                        pady=20)
-
-l2.grid(row=2, column=5)     # positioning the l2 in the window
-
-e2 = tkinter.Entry(l2,
-                   state="disable")
-
-e2.grid(row=4, column=5)     # positioning the e2 in the window
+    if bmi < 18:
+        return "your underweight "
+    elif bmi >= 18 and 25:
+        return "normal"
+    elif bmi >= 25 < 30:
+        return "overweight"
+    else:
+        return "Obese"
 
 
-# defining function responsible for setting the state for Fahrenheit
-
-def far_active():
-    e1.configure(state="disable")
-    e2.configure(state="normal")
-
-
-# creating a button that when clicked will invoke the state of Fahrenheit to Celsius and calling the far_active()
-
-btn_active1 = tkinter.Button(root,
-                             text="Active -Fahrenheit to Celsius",
-                             font="sans-serif",
-                             bg="orange",
-                             fg="black",
-                             bd=3,
-                             command=far_active)
-
-btn_active1.grid(row=6, column=5)    # positioning the btn_active1 in the window
+# defining the male ideal bmi
+def male_ideal_bmi(*args):
+    male_ideal = float(0.5 * weight_entry.get() / (float(Height_entry.get() / 100)))**2 + 11.5
+    label_text.set("%0.2f" % male_ideal_bmi)
 
 
-# defining function that will exit/ close the window/ program
+def female_ideal_bmi(*args):
+    female_ideal = float(0.5 * weight_entry.get() / float(Height_entry.get() / 100))**2 + 0.03 * float(age_entry.get()) + 11
+    label_text.set("%0.2f" % female_ideal_bmi)
 
-def close():
-    root.destroy()
-
-
-# creating exit button which and calling the close()
-
-exit_btn = tkinter.Button(text="Exit Program",
-                          font="sans-serif",
-                          bg="black",
-                          fg="red",
-                          bd=5,
-                          command=close)
-
-exit_btn.place(x=50, y=300)   # positioning the exit_btn in the window
-
-
-# defining function for converting celsius to fahrenheit
-
-def convert_c():
-    if e1["state"] == "normal" and e1.get() != "":
-        celsius = float(e1.get())
-        fahrenheit = (celsius*9/5)+32
-        result_entry.insert(0, str(fahrenheit))
-
-
-# defining function for converting fahrenheit to celsius
-
-def convert_f():
-    if e2["state"] == "normal" and e2.get() != "":
-        fahrenheit = float(e2.get())
-        celsius = (fahrenheit-32)*5/9
-        result_entry.insert(0, celsius)
-
-
-# creating the action button for converting Celsius to Fahrenheit
-
-result_btn = tkinter.Button(root,
-                            text="Convert C-F",
-                            font="sans-serif",
-                            bg="blue",
-                            fg="light blue",
-                            bd=5,
-                            command=convert_c)
-
-result_btn.grid(row=7, column=2, pady=30, padx=60)  # positioning the result_btn in the window
-
-
-# creating the action button for converting Fahrenheit to Celsius and calling the convert_f()
-
-result_btn2 = tkinter.Button(root,
-                             text="Convert F-C",
-                             font="sans-serif",
-                             bg="red",
-                             fg="orange",
-                             bd=5,
-                             command=convert_f)
-
-result_btn2.grid(row=7, column=4, pady=30, padx=60)   # positioning the result_btn2 in the window
-
-
-# creating the result_entry or output entry
-
-result_entry = tkinter.Entry(root,
-                             bg="yellow",
-                             fg="black",
-                             bd=5)
-
-result_entry.place(x=300,
-                   y=250,
-                   width=300,
-                   height=60)   # positioning the Entry in the window
-
-
-# defining function that will delete the figure in the Entry box/ input box
 
 def clear():
-    e1.delete(0)
-    e2.delete(0)
-    result_entry.delete(0)
+    weight_entry.delete(0, END)
+    Height_entry.delete(0, END)
+    age_entry.delete(0, END)
 
 
-# creating the Clear button and calling the clear()
+def close():
+    return root.destroy()
 
-clear_btn = tkinter.Button(root,
-                           font="sans-serif",
-                           bg="green",
-                           fg="white",
-                           text="Clear",
-                           bd=4,
-                           command=clear)
 
-clear_btn.place(x=50, y=250)     # positioning the clear_btn in the window
+frame_1 = Frame(root, width=100, highlightbackground='black', highlightthickness=2)
+frame_1.grid(row=0, column=0, padx=20, pady=20, ipadx=20, ipady=20)
+weight_label = Label(frame_1, text="Weight:")
+height_label = Label(frame_1, text="height:")
+kilograms_label = Label(frame_1, text="kilograms")
+cm_label = Label(frame_1, text="CM")
+gender_label = Label(frame_1, text="Gender:")
+age_label = Label(frame_1, text="Age")
+drop = OptionMenu(frame_1, clicked, "Male", "Female")
 
-# starting the app
+weight_entry = Entry(frame_1)
+Height_entry = Entry(frame_1)
+age_entry = Entry(frame_1)
+
+weight_label.grid(row=3, column=0)
+weight_entry.grid(row=3, column=2)
+kilograms_label.grid(row=3, column=3)
+height_label.grid(row=5, column=0)
+Height_entry.grid(row=5, column=2)
+cm_label.grid(row=5, column=3)
+gender_label.grid(row=6, column=0)
+drop.grid(row=6, column=2)
+age_label.grid(row=6, column=4)
+age_entry.grid(row=6, column=5)
+
+calculate_button = Button(root, text="calculate your ideal Body Mass Index", width=50, command=bmi_calculator)
+calculate_button.grid(row=7, column=0, sticky=W+E+N+S)
+add = Label(root, text="", textvariable=label_text).grid(row=8, column=1, sticky=W)
+
+BMI_label = Label(root, text="BMI:")
+BMI_label.grid(row=8, column=0)
+Ideal_label = Label(root, text="ideal :")
+Ideal_label.grid(row=8, column=2)
+
+clear = Button(root, text="clear", command=clear)
+clear.grid(row=10, column=0)
+
+exit_button = Button(root, text="exit program", command=close)
+exit_button.grid(row=10, column=2)
 
 root.mainloop()
